@@ -66,12 +66,9 @@ if [ -n "$gid" ]; then
 fi
 
 useradd "${useraddOptions[@]}" "$user"
-# Do not create home directories for admin accounts
-if [ "$gid" -ne 0 ]; then
-    mkdir -p "/home/$user"
-    chown root:root "/home/$user"
-    chmod 755 "/home/$user"
-fi
+mkdir -p "/home/$user"
+chown root:root "/home/$user"
+chmod 755 "/home/$user"
 
 # Retrieving user id to use it in chown commands instead of the user name
 # to avoid problems on alpine when the user name contains a '.'
