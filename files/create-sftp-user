@@ -93,6 +93,7 @@ fi
 if [ -n "$dir" ]; then
     IFS=',' read -ra dirArgs <<< "$dir"
     for dirPath in "${dirArgs[@]}"; do
+        dirPath="$dirPath"
         if [ ! -d "$dirPath" ]; then
             log "Creating directory: $dirPath"
             mkdir -p "$dirPath"
@@ -101,4 +102,10 @@ if [ -n "$dir" ]; then
             log "Directory already exists: $dirPath"
         fi
     done
+fi
+
+# If user has root group access, let its home directory be /home so 
+# it may access other user's home directories.
+if [ "$gid" -eq 0 ]; then
+    usermod -d /home "$user"
 fi
